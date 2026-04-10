@@ -35,3 +35,31 @@ Validated:
 - Integration of custom Jacobian-based controller
 - Constraint-based control (CBF)
 - Comparative analysis with MoveIt trajectories
+
+## Control Strategies Implemented
+
+### 1. Joint Velocity Control
+- Direct velocity commands via ros2_control
+- Topic: `/forward_velocity_controller/commands`
+
+### 2. Cartesian Position Control
+- TCP position control using Jacobian-based mapping
+- Error: \( e_p = p_d - p \)
+
+### 3. Cartesian Pose Control (Position + Orientation)
+- Full pose control using geometric Jacobian
+- Orientation error based on rotation matrices:
+  
+  \[
+  e_o = \frac{1}{2}(R_c^x \times R_d^x + R_c^y \times R_d^y + R_c^z \times R_d^z)
+  \]
+
+- Control law:
+
+  \[
+  \dot{q} = J^T (J J^T + \lambda^2 I)^{-1} v
+  \]
+
+- Real-time feedback using:
+  - `/joint_states`
+  - `/tcp_pose_broadcaster/pose`
